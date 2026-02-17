@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: taxi_transformation
+        working-directory: ./taxi_transformation
 
     steps:
       - name: Checkout Code
