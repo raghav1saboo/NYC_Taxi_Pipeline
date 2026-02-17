@@ -1,0 +1,7 @@
+version: 2
+sources:
+  - name: s3_silver
+    database: TAXI_GOLD
+    schema: EXTERNAL_STAGING
+    tables:
+      - name: yellow_taxi_trips

@@ -1,0 +1,23 @@
+taxi_transformation:
+  outputs:
+    dev:
+      account: XCELUWO-DJ74397
+      database: TAXI_DEV
+      password: "{{ env_var('DBT_ENV_SECRET_PASSWORD') }}"
+      role: DE_DEV_ROLE
+      schema: BRONZE
+      threads: 4
+      type: snowflake
+      user: RAGHAVSABOO
+      warehouse: TAXI_WH
+    prod:
+      type: snowflake
+      account: XCELUWO-DJ74397
+      user: RAGHAVSABOO
+      password: "{{ env_var('DBT_ENV_SECRET_PASSWORD') }}"
+      role: DE_PROD_ROLE
+      database: TAXI_PROD
+      warehouse: TAXI_WH
+      schema: BRONZE
+      threads: 8  # More threads for prod performance    
+  target: dev

@@ -1,0 +1,70 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # THE MISSING SERVICE: This sets up the DB and User
+  airflow-init:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+    # This command creates the 'airflow' user with password 'airflow'
+    command: >
+      bash -c "airflow db init &&
+      airflow users create --username airflow --password airflow --firstname Raghav --lastname Saboo --role Admin --email raghav1713@gmail.com"
+
+  airflow-webserver:
+    build: .
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./taxi_transformation:/opt/airflow/taxi_transformation
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW__WEBSERVER__SECRET_KEY}
+      - AIRFLOW__LOGGING__REMOTE_LOGGING=False 
+      # This tells the webserver to look for logs using the container's internal IP
+      - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    command: webserver
+
+  airflow-scheduler:
+    build: .
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./scripts:/opt/airflow/scripts
+      - ./taxi_transformation:/opt/airflow/taxi_transformation
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__WEBSERVER__SECRET_KEY=${AIRFLOW__WEBSERVER__SECRET_KEY}
+      - AIRFLOW__LOGGING__REMOTE_LOGGING=False 
+      # This tells the webserver to look for logs using the container's internal IP
+      - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
+    env_file:
+      - .env
+    command: scheduler

@@ -1,0 +1,9 @@
+version: 2
+sources:
+  - name: s3_bronze
+    # We use Jinja to swap the database based on your target (Dev or Prod)
+    database: "{{ 'TAXI_DEV' if target.name == 'dev' else 'TAXI_PROD' }}"
+    schema: BRONZE
+    tables:
+      - name: yellow_taxi_trips
+        description: "Raw parquet data from S3 bronze bucket"

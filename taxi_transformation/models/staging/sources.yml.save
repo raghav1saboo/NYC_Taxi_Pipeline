@@ -1,0 +1,7 @@
+version: 2
+sources:
+  - name: s3_sources
+    database: TAXI_DEV  # Or TAXI_DEV depending on your run
+    schema: ANALYTICS
+    tables:
+      - name: yellow_taxi_trips # This points to the External Table

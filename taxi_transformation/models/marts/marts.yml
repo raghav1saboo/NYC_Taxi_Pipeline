@@ -1,0 +1,11 @@
+version: 2
+models:
+  - name: fct_business_performance
+    description: "Final Gold table for Business Intelligence."
+    columns:
+      - name: pickup_borough
+        tests:
+          - not_null
+      - name: total_revenue
+        tests:
+          - dbt_utils.at_least_one
