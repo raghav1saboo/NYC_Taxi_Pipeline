@@ -9,6 +9,9 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: taxi_transformation
 
     steps:
       - name: Checkout Code
@@ -31,4 +34,4 @@ jobs:
         run: |
           # We run build against 'dev' to ensure the new code doesn't break anything
           # dbt will use the Env Var for the password in your profiles.yml
-          dbt build --target dev
+          dbt build --project-dir taxi_transformation --profiles-dir taxi_transformation --target prod
