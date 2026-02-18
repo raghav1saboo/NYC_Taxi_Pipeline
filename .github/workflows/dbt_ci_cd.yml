@@ -9,13 +9,15 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./taxi_transformation
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Where am I?
+        run: |
+          pwd
+          ls -R
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -25,13 +27,20 @@ jobs:
       - name: Install dbt
         run: |
           pip install dbt-snowflake
-          dbt deps
+	
+      - name: Final Path Debugger
+        run: |
+          echo "Working Directory: $(pwd)"
+          echo "Listing all dbt files in the repo:"
+          find . -name "dbt_project.yml"
 
       - name: Run dbt Build (Dev Environment)
+        working-directory: ./taxi_transformation
         env:
           # This maps the GitHub Secret to an Environment Variable
           DBT_ENV_SECRET_PASSWORD: ${{ secrets.DBT_SNOWFLAKE_PASSWORD }}
         run: |
           # We run build against 'dev' to ensure the new code doesn't break anything
           # dbt will use the Env Var for the password in your profiles.yml
-          dbt build --project-dir taxi_transformation --profiles-dir taxi_transformation --target prod
+          dbt deps
+          dbt build --target dev
