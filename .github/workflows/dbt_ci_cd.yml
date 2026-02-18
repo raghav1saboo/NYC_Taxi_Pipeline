@@ -25,7 +25,12 @@ jobs:
       - name: Install dbt
         run: |
           pip install dbt-snowflake
-          dbt deps
+	
+      - name: Final Path Debugger
+        run: |
+          echo "Working Directory: $(pwd)"
+          echo "Listing all dbt files in the repo:"
+          find . -name "dbt_project.yml"
 
       - name: Run dbt Build (Dev Environment)
         env:
@@ -34,4 +39,5 @@ jobs:
         run: |
           # We run build against 'dev' to ensure the new code doesn't break anything
           # dbt will use the Env Var for the password in your profiles.yml
-          dbt build --project-dir taxi_transformation --profiles-dir taxi_transformation --target prod
+          dbt deps --project-dir $GITHUB_WORKSPACE/taxi_transformation
+          dbt build --project-dir $GITHUB_WORKSPACE/taxi_transformation --profiles-dir $GITHUB_WORKSPACE/taxi_transformation --target dev
