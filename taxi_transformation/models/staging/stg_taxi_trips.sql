@@ -38,3 +38,4 @@ select
     dayname(PICKUP_DATETIME) as DAY_OF_WEEK
 from deduplicated
 where rn = 1;
+
