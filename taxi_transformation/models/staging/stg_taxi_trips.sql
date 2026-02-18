@@ -37,4 +37,4 @@ select
     hour(PICKUP_DATETIME) as PICKUP_HOUR,
     dayname(PICKUP_DATETIME) as DAY_OF_WEEK
 from deduplicated
-where rn = 1;
+where rn = 1
