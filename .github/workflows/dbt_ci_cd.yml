@@ -27,7 +27,7 @@ jobs:
       - name: Install dbt
         run: |
           pip install dbt-snowflake
-	
+
       - name: Final Path Debugger
         run: |
           echo "Working Directory: $(pwd)"
