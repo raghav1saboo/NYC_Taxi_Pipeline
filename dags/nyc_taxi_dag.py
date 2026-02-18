@@ -58,6 +58,14 @@ with DAG(
         job_name='nyc_taxi_parallel_ingest_job',
 	iam_role_name='DataEngineeringConductorRole',
         script_location='s3://raghav-saboo-ecommerce-lakehouse/scripts/industrial_parallel_ingest.py',
+	create_job_kwargs={
+            "GlueVersion": "4.0",
+            "Command": {
+                "Name": "glueetl",
+                "ScriptLocation": "s3://raghav-saboo-ecommerce-lakehouse/scripts/industrial_parallel_ingest.py",
+                "PythonVersion": "3",
+            }
+        },
         script_args={
             '--BUCKET_NAME': 'raghav-saboo-ecommerce-lakehouse',
             # Logic: Use manual config if provided, otherwise use current execution year
