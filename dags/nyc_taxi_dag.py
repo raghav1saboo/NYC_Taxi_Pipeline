@@ -42,17 +42,20 @@ default_args = {
 with DAG(
     dag_id='nyc_taxi_industrial_pipeline_v1',
     max_active_runs=1,      # Only one year processes at a time
-    concurrency=2,
+    concurrency=1,
     default_args=default_args,
     description='Industrial scale ingestion (Glue/Spark) and transformation (dbt/Snowflake)',
     schedule_interval='0 12 * * *', # Daily at 12:00 PM
-    start_date=datetime(2026, 1, 1),
-    catchup=False,
+    start_date=datetime(2026, 2, 19),
+    catchup=True,
     tags=['production', 'industrial_scale']
 ) as dag:
 
     # --- 3. INGESTION: Trigger Parallel Glue Job ---
     # This sends 1GB worth of data (specific years/months) to S3
+
+    target_year_expr = "{{ (dag_run.logical_date - dag.start_date).days + 2009 }}"
+
     ingest_raw_data = GlueJobOperator(
         task_id='trigger_glue_parallel_ingest',
         job_name='nyc_taxi_parallel_ingest_job',
@@ -68,8 +71,8 @@ with DAG(
         },
         script_args={
             '--BUCKET_NAME': 'raghav-saboo-ecommerce-lakehouse',
-            # Logic: Use manual config if provided, otherwise use current execution year
-            '--YEAR_TO_PROCESS': "{{ dag_run.conf['year_to_process'] if dag_run and dag_run.conf.get('year_to_process') else ds[:4] }}",
+            '--START_YEAR': target_year_expr, # Industrial Backfill Start
+            '--END_YEAR': target_year_expr    # Last full year of data
         },
         aws_conn_id='aws_default'
     )
