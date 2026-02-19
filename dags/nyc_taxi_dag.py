@@ -71,8 +71,7 @@ with DAG(
         },
         script_args={
             '--BUCKET_NAME': 'raghav-saboo-ecommerce-lakehouse',
-            '--START_YEAR': target_year_expr, # Industrial Backfill Start
-            '--END_YEAR': target_year_expr    # Last full year of data
+            '--YEAR_TO_PROCESS': target_year_expr
         },
         aws_conn_id='aws_default'
     )
