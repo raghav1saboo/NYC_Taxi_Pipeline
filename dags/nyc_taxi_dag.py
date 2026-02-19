@@ -68,8 +68,8 @@ with DAG(
         },
         script_args={
             '--BUCKET_NAME': 'raghav-saboo-ecommerce-lakehouse',
-            # Logic: Use manual config if provided, otherwise use current execution year
-            '--YEAR_TO_PROCESS': "{{ dag_run.conf['year_to_process'] if dag_run and dag_run.conf.get('year_to_process') else ds[:4] }}",
+            '--START_YEAR': '2022', # Industrial Backfill Start
+            '--END_YEAR': '2025'    # Last full year of data
         },
         aws_conn_id='aws_default'
     )
