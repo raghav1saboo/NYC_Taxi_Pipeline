@@ -46,7 +46,7 @@ with DAG(
     default_args=default_args,
     description='Industrial scale ingestion (Glue/Spark) and transformation (dbt/Snowflake)',
     schedule_interval='0 12 * * *', # Daily at 12:00 PM
-    start_date=datetime(2026, 2, 19),
+    start_date=datetime(2026, 2, 20),
     catchup=True,
     tags=['production', 'industrial_scale']
 ) as dag:

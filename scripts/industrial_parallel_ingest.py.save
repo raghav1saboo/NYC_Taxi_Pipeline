@@ -17,7 +17,7 @@ def download_to_s3(task):
     taxi_type, month = task
     file_name = f"{taxi_type}_tripdata_{year}-{month:02d}.parquet"
     source_url = f"https://d37ci6vzurychx.cloudfront.net/trip-data/{file_name}"
-    s3_key = f"bronze/taxi_data/year={year}/month={month:02d}/{file_name}"
+    s3_key = f"bronze/taxi_data/type={taxi_type}/year={year}/month={month:02d}/{file_name}"
     
     s3 = boto3.client('s3')
     
