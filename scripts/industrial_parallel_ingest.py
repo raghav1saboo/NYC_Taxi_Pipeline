@@ -43,7 +43,7 @@ def download_to_s3(task):
 tasks = [(t, m) for t in TAXI_TYPES for m in range(1, 13)]
 
 # Parallelize with Spark
-results = sc.parallelize(tasks, len(tasks)).map(download_to_s3).collect()
+results = sc.parallelize(tasks, 4).map(download_to_s3).collect()
 
 for res in results:
     print(res)
