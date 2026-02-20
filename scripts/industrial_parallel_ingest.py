@@ -10,7 +10,7 @@ sc = SparkContext()
 args = getResolvedOptions(sys.argv, ['BUCKET_NAME', 'YEAR_TO_PROCESS'])
 BUCKET = args['BUCKET_NAME']
 # We process a range now
-YEAR = int(args['YEAR_TO_PROCESS'])
+year = int(args['YEAR_TO_PROCESS'])
 TAXI_TYPES = ['yellow', 'green', 'fhv', 'fhvhv']
 
 def download_to_s3(task):
