@@ -85,6 +85,15 @@ with DAG(
             'dbt deps && '
             'dbt build --target prod'
         ),
+	env={
+            # This pulls the password from the .env file (already loaded into the container)
+            # and passes it specifically to this bash command
+            'SNOWFLAKE_PASSWORD': os.getenv('SNOWFLAKE_PASSWORD'),
+            'SNOWFLAKE_USER': os.getenv('SNOWFLAKE_USER'),
+            'SNOWFLAKE_ACCOUNT': os.getenv('SNOWFLAKE_ACCOUNT'),
+            'PATH': os.environ.get('PATH') # Ensure dbt can find its own path
+        },
+        append_env=True,
         # Success alert for the final business tables
         on_success_callback=[send_slack_notification(
             slack_conn_id="slack_conn",
