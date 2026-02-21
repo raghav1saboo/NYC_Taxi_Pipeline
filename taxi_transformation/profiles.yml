@@ -3,7 +3,7 @@ taxi_transformation:
     dev:
       account: XCELUWO-DJ74397
       database: TAXI_DEV
-      password: "{{ env_var('DBT_ENV_SECRET_PASSWORD') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: DE_DEV_ROLE
       schema: BRONZE
       threads: 4
@@ -14,7 +14,7 @@ taxi_transformation:
       type: snowflake
       account: XCELUWO-DJ74397
       user: RAGHAVSABOO
-      password: "{{ env_var('DBT_ENV_SECRET_PASSWORD') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: DE_PROD_ROLE
       database: TAXI_PROD
       warehouse: TAXI_WH
