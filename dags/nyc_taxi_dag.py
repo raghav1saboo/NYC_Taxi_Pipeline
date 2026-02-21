@@ -5,7 +5,7 @@ from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 from airflow.providers.slack.hooks.slack_webhook import SlackWebhookHook
 import os
-
+#
 def send_slack_webhook_alert(context):
     ti = context.get('task_instance')
     msg = f":rotating_light: *Task Failed!* \n*Task*: {ti.task_id} \n*DAG*: {ti.dag_id}"
