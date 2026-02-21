@@ -1,19 +1,19 @@
 taxi_transformation:
   outputs:
     dev:
-      account: XCELUWO-DJ74397
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
       database: TAXI_DEV
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: DE_DEV_ROLE
       schema: BRONZE
       threads: 4
       type: snowflake
-      user: RAGHAVSABOO
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
       warehouse: TAXI_WH
     prod:
       type: snowflake
-      account: XCELUWO-DJ74397
-      user: RAGHAVSABOO
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: DE_PROD_ROLE
       database: TAXI_PROD

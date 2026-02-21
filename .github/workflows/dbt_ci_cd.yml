@@ -38,7 +38,9 @@ jobs:
         working-directory: ./taxi_transformation
         env:
           # This maps the GitHub Secret to an Environment Variable
-          DBT_ENV_SECRET_PASSWORD: ${{ secrets.DBT_SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
         run: |
           # We run build against 'dev' to ensure the new code doesn't break anything
           # dbt will use the Env Var for the password in your profiles.yml
