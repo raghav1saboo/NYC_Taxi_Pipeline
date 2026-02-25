@@ -42,6 +42,9 @@ services:
       - AIRFLOW__LOGGING__REMOTE_LOGGING=False 
       # This tells the webserver to look for logs using the container's internal IP
       - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
+      - SNOWFLAKE_USER=${SNOWFLAKE_USER}
+      - SNOWFLAKE_PASSWORD=${SNOWFLAKE_PASSWORD}
+      - SNOWFLAKE_ACCOUNT=${SNOWFLAKE_ACCOUNT}
     ports:
       - "8080:8080"
     env_file:
@@ -65,6 +68,9 @@ services:
       - AIRFLOW__LOGGING__REMOTE_LOGGING=False 
       # This tells the webserver to look for logs using the container's internal IP
       - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
+      - SNOWFLAKE_USER=${SNOWFLAKE_USER}
+      - SNOWFLAKE_PASSWORD=${SNOWFLAKE_PASSWORD}
+      - SNOWFLAKE_ACCOUNT=${SNOWFLAKE_ACCOUNT}
     env_file:
       - .env
     command: scheduler

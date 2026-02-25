@@ -20,4 +20,14 @@ taxi_transformation:
       warehouse: TAXI_WH
       schema: BRONZE
       threads: 8  # More threads for prod performance    
+    clone:
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      database: TAXI_DEV
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: ACCOUNTADMIN
+      schema: BRONZE
+      threads: 4
+      type: snowflake
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      warehouse: TAXI_WH
   target: dev
