@@ -20,7 +20,6 @@ def send_slack_webhook_alert(context):
     return hook.send(text=msg)
 
 
-
 # --- 1. OBSERVABILITY: Slack Alerting ---
 # This notifier will trigger on any task failure
 failure_alert = send_slack_notification(
