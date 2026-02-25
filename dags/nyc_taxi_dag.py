@@ -137,7 +137,8 @@ with DAG(
             'cd /opt/airflow/taxi_transformation && '
             'dbt run-operation clone_schema_across_db '
             '--args "{from_db: TAXI_PROD, from_schema: BRONZE, to_db: TAXI_DEV, to_schema: BRONZE}" '
-            '--target clone'
+            '--target clone &&'
+	    'dbt run-operation stage_external_sources --vars "ext_full_refresh: true" --target dev' # Refresh Ext Tables
         ),
         env={
             'SNOWFLAKE_USER': os.getenv('SNOWFLAKE_USER'),
